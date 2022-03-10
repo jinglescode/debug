@@ -6,14 +6,21 @@ import styles from "../styles/Home.module.css";
 // import gameConfig from "../game";
 
 // sol #2
+// import dynamic from 'next/dynamic'
+// import Phaser from 'phaser';
+// const IonPhaser = dynamic(
+//   () => import('@ion-phaser/react').then((mod) => mod.IonPhaser),
+//   { 
+//     ssr: false 
+//   }
+// )
+
+// sol #3
 import dynamic from 'next/dynamic'
-import Phaser from 'phaser';
-const IonPhaser = dynamic(
-  () => import('@ion-phaser/react').then((mod) => mod.IonPhaser),
-  { 
-    ssr: false 
-  }
-)
+const PhaserGameNoSSR = dynamic(() => import('../game'), {
+  ssr: false,
+})
+
 
 
 export default function Home() {
@@ -22,33 +29,33 @@ export default function Home() {
   // useGame(gameConfig, parentEl);
 
   // sol #2
-  const state = {
-    initialize: true,
-    game: {
-      width: "100%",
-      height: "100%",
-      type: Phaser.AUTO,
-      scene: {
-        init: function() {
-          this.cameras.main.setBackgroundColor('#24252A')
-        },
-        create: function() {
-          this.helloWorld = this.add.text(
-            this.cameras.main.centerX, 
-            this.cameras.main.centerY, 
-            "Hello World", { 
-              font: "40px Arial", 
-              fill: "#ffffff" 
-            }
-          );
-          this.helloWorld.setOrigin(0.5);
-        },
-        update: function() {
-          this.helloWorld.angle += 1;
-        }
-      }
-    }
-  }
+  // const state = {
+  //   initialize: true,
+  //   game: {
+  //     width: "100%",
+  //     height: "100%",
+  //     type: Phaser.AUTO,
+  //     scene: {
+  //       init: function() {
+  //         this.cameras.main.setBackgroundColor('#24252A')
+  //       },
+  //       create: function() {
+  //         this.helloWorld = this.add.text(
+  //           this.cameras.main.centerX, 
+  //           this.cameras.main.centerY, 
+  //           "Hello World", { 
+  //             font: "40px Arial", 
+  //             fill: "#ffffff" 
+  //           }
+  //         );
+  //         this.helloWorld.setOrigin(0.5);
+  //       },
+  //       update: function() {
+  //         this.helloWorld.angle += 1;
+  //       }
+  //     }
+  //   }
+  // }
 
 
   return (
@@ -57,7 +64,9 @@ export default function Home() {
         {/* // sol #1 */}
         {/* <div ref={parentEl} className="gameContainer" /> */}
         {/* // sol #2 */}
-        <IonPhaser game={state.game} initialize={state.initialize} />
+        {/* <IonPhaser game={state.game} initialize={state.initialize} /> */}
+        {/* // sol #3 */}
+        <PhaserGameNoSSR />
       </main>
     </div>
   );
